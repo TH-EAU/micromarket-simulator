@@ -1,23 +1,32 @@
 import { Canvas } from "@react-three/fiber";
 import CameraControls from "./assets/controls/CameraControls";
-import { Suspense } from "react";
-import Storage from "./assets/game/Storage";
+import { Suspense, useContext, useEffect, useState } from "react";
+import FurnitureSet from "./assets/game/FurnitureSet";
+import Grid from "./assets/game/Grid";
+import { ShopConfigContext } from "./contexts/ShopConfigContext";
 import "./App.css";
+import Test from "./assets/game/Test";
 
 function App() {
+  const shop = useContext(ShopConfigContext);
+
+  const [flag, setFlag] = useState(true);
+
+  useEffect(() => {
+    setFlag(!flag);
+    console.log("helo");
+  }, [shop.config]);
+
   return (
     <div id="canvas-container" style={{ width: "90vw", height: "89vh" }}>
+      <button onClick={shop?.add}>add +</button>
       <Canvas
         shadows
         orthographic
         camera={{ zoom: 50, position: [10, 10, 10] }}
       >
         <Suspense fallback={null}>
-          <mesh>
-            <boxGeometry args={[1, 0.1, 1]} />
-            <meshStandardMaterial />
-          </mesh>
-          <Storage />
+          <Test />
           <ambientLight intensity={0.2} color="blue" position={[5, 5, 5]} />
           <directionalLight color="white" position={[1, 2, 5]} />
           <CameraControls />

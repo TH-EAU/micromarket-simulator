@@ -4,11 +4,11 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { getStorageModel } from "../../models/Storage_Enum";
 
 export default function Storage({ model = "storage" }) {
+  const [hovered, setHovered] = useState(false);
   const gltf = useLoader(
     GLTFLoader,
     `/assets/models/${getStorageModel(model).path}.glb`
   );
-  const [hovered, setHovered] = useState(false);
   return (
     <>
       {hovered && (
