@@ -1,4 +1,3 @@
-import { useLoader } from "@react-three/fiber";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
 export class GLTFModel {
@@ -22,23 +21,5 @@ export class GLTFModel {
         }
       );
     });
-  }
-}
-
-export class StorageModel extends GLTFModel {
-  constructor() {
-    super("/assets/models/etagere.glb");
-  }
-}
-
-export class SmallFridgeModel extends GLTFModel {
-  constructor() {
-    super("/assets/models/frigogidaire_small.glb");
-  }
-}
-
-export class FridgeModel extends GLTFModel {
-  constructor() {
-    super("/assets/models/frigogidaire.glb");
   }
 }
