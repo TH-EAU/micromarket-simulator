@@ -11,11 +11,11 @@ export const CartProvider = ({ children }) => {
   const { buy, addToInventory } = useGame();
 
   const getTotalCartAmount = () => {
-    return cart.reduce((total, item) => total + item.inPrice, 0);
+    return cart.reduce((total, item) => total + item.product.inPrice, 0);
   };
 
   const addToCart = (product) => {
-    setCart([...cart, { ...product, lineId: uuidv4() }]);
+    setCart([...cart, { product, lineId: uuidv4() }]);
   };
 
   const deleteFromCart = (lineId) => {

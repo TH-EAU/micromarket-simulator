@@ -18,8 +18,8 @@ const StockPanel = ({ open, close }) => {
         <VStack>
           {inventory.map((item) => {
             return (
-              <Button key={item.id} onClick={() => handleSelect(item)}>
-                <Image src={item.image} />
+              <Button key={item.lineId} onClick={() => handleSelect(item)}>
+                <Image src={item.product.image} />
               </Button>
             );
           })}

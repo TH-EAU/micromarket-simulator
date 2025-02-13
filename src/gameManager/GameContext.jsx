@@ -18,12 +18,23 @@ export const GameProvider = ({ children }) => {
     if (total < 0) {
       throw new Error("You don't have enough money for this operation !");
     }
-    setFinances(total);
+    setFinances(() => {
+      localStorage.setItem("finances", total);
+      return total;
+    });
   };
 
   const addToInventory = (items) => {
     setInventory((prevList) => {
       const newList = [...prevList, ...items];
+      localStorage.setItem("inventory", JSON.stringify(newList));
+      return newList;
+    });
+  };
+
+  const deleteFromInventory = (lineId) => {
+    setInventory((prevInventory) => {
+      const newList = prevInventory.filter((item) => item.lineId !== lineId);
       localStorage.setItem("inventory", JSON.stringify(newList));
       return newList;
     });
@@ -39,7 +50,9 @@ export const GameProvider = ({ children }) => {
   });
 
   return (
-    <GameContext.Provider value={{ finances, buy, inventory, addToInventory }}>
+    <GameContext.Provider
+      value={{ finances, buy, inventory, addToInventory, deleteFromInventory }}
+    >
       {children}
     </GameContext.Provider>
   );

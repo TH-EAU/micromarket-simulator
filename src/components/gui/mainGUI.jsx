@@ -6,6 +6,7 @@ import { CartProvider } from "../../gameManager/CartContext";
 import AddOutlineIcon from "@rsuite/icons/AddOutline";
 import GridIcon from "@rsuite/icons/Grid";
 import StockPanel from "./StockPanel";
+import ShortCutHoneyPot from "./ShortcutHoneyPot";
 
 const MainGUI = () => {
   const [openBuy, setOpenBuy] = useState(false);
@@ -28,8 +29,13 @@ const MainGUI = () => {
     setOpenStock(false);
   };
 
+  const abort = (e) => {
+    console.log(e);
+  };
+
   return (
     <>
+      <ShortCutHoneyPot />
       <div>
         <ButtonToolbar>
           <IconButton icon={<AddOutlineIcon />} onClick={openBuyingModal}>

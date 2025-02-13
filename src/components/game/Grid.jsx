@@ -3,8 +3,13 @@ import { useShop } from "../../shopManager/shopContext";
 import Tile from "./Tiles/Tile";
 
 const Grid = () => {
-  const { tileList, addFurniture, placeEditMode, tooglePlaceEditMode } =
-    useShop();
+  const {
+    tileList,
+    addFurniture,
+    placeEditMode,
+    abortPlaceEditMode,
+    itemToPlace,
+  } = useShop();
   const [currentRotation, setCurrentRotation] = useState(0);
 
   const handleRotation = () => [
@@ -13,8 +18,8 @@ const Grid = () => {
 
   const handlePlace = (tile) => {
     if (placeEditMode) {
-      addFurniture(tile.id, [0, currentRotation, 0]);
-      tooglePlaceEditMode();
+      addFurniture(tile.id, itemToPlace, [0, currentRotation, 0]);
+      abortPlaceEditMode();
     }
   };
 

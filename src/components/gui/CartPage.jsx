@@ -14,11 +14,12 @@ const CartPage = () => {
       <Table height={300} data={cart}>
         <Column align="center" width={200} fixed>
           <HeaderCell>Name</HeaderCell>
-          <Cell dataKey="name" />
+          <Cell dataKey="product.name" />
         </Column>
+
         <Column align="center" fixed>
           <HeaderCell>Price</HeaderCell>
-          <Cell dataKey="inPrice" />
+          <Cell dataKey="product.inPrice" />
         </Column>
 
         <Column align="center" width={300}>

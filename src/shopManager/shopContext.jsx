@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { Grid } from "../models/Grid";
-import { Furniture } from "../models/Furniture";
+import { useGame } from "../gameManager/GameContext";
 
 const BASIC_GRID_SIZE = 10;
 
@@ -8,34 +8,38 @@ const ShopContext = createContext();
 
 export const ShopProvider = ({ children }) => {
   const [placeEditMode, setPlaceEditMode] = useState(false);
-  const [modelToPlace, setModelToPlace] = useState(null);
+  const [itemToPlace, setItemToPlace] = useState(null);
   const [tileList, setTileList] = useState(() => {
     const savedList = localStorage.getItem("tileList");
     return savedList
       ? JSON.parse(savedList)
       : Grid.generateGrid(BASIC_GRID_SIZE);
   });
+  const { deleteFromInventory } = useGame();
 
   const activePlaceEditMode = (item) => {
     if (!item) {
       throw new Error("Edit mode must have item to place !");
     }
-
     setPlaceEditMode(true);
-    setModelToPlace(item.model);
+    setItemToPlace(item);
   };
 
-  const tooglePlaceEditMode = () => {
-    setPlaceEditMode(!placeEditMode);
+  const abortPlaceEditMode = () => {
+    setPlaceEditMode(false);
   };
 
-  const addFurniture = (tileId, rotation) => {
+  const addFurniture = (tileId, furniture, rotation) => {
+    if (!furniture) {
+      throw new Error("You must provide a furniture !");
+    }
+
     setTileList((prevList) => {
       const newList = prevList.map((tile) =>
         tile.id === tileId
           ? {
               ...tile,
-              furniture: new Furniture("smallFridge", 4),
+              furniture,
               rotation,
               busy: true,
             }
@@ -45,6 +49,9 @@ export const ShopProvider = ({ children }) => {
       localStorage.setItem("tileList", JSON.stringify(newList));
       return newList;
     });
+    setPlaceEditMode(false);
+    setItemToPlace(null);
+    deleteFromInventory(furniture.lineId);
   };
 
   useEffect(() => {
@@ -60,7 +67,8 @@ export const ShopProvider = ({ children }) => {
         addFurniture,
         placeEditMode,
         activePlaceEditMode,
-        modelToPlace,
+        abortPlaceEditMode,
+        itemToPlace,
       }}
     >
       {children}

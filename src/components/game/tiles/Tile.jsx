@@ -5,8 +5,8 @@ import { useShop } from "../../../shopManager/shopContext";
 
 const Tile = ({ tile, rotation, handleRotation, handlePlace }) => {
   const [hovered, setHovered] = useState(false);
-  const { placeEditMode, modelToPlace } = useShop();
-  const model = useModel(modelToPlace);
+  const { placeEditMode, itemToPlace } = useShop();
+  const model = itemToPlace && useModel(itemToPlace.product.model);
 
   if (!tile.furniture) {
     return (
@@ -44,7 +44,7 @@ const Tile = ({ tile, rotation, handleRotation, handlePlace }) => {
     <>
       (
       <Furniture
-        model={tile.furniture.model}
+        model={tile.furniture.product.model}
         rotation={tile.rotation}
         position={tile.position}
       />
