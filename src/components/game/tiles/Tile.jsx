@@ -25,7 +25,7 @@ const Tile = ({ tile, rotation, handleRotation, handlePlace }) => {
       </mesh>
       {tile.furniture && (
         <Furniture
-          model={tile.furniture.product.model}
+          furniture={tile.furniture}
           rotation={tile.rotation}
           position={tile.position}
         />
@@ -34,10 +34,7 @@ const Tile = ({ tile, rotation, handleRotation, handlePlace }) => {
         placeEditMode &&
         !tile.busy &&
         itemToPlace.product instanceof FurnitureModel && (
-          <mesh
-            onPointerOut={() => setHovered(false)}
-            onContextMenu={handleRotation}
-          >
+          <mesh>
             <primitive
               position={tile.position}
               rotation={rotation}

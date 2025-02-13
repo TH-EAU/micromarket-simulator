@@ -25,6 +25,7 @@ export const ShopProvider = ({ children }) => {
 
   const abortPlaceEditMode = () => {
     setPlaceEditMode(false);
+    setItemToPlace(null);
   };
 
   const addFurniture = (tileId, furniture, rotation) => {
@@ -33,6 +34,7 @@ export const ShopProvider = ({ children }) => {
     }
 
     if (!(furniture.product instanceof Furniture)) {
+      abortPlaceEditMode();
       throw new Error("You must provide an Instance of Furniture !");
     }
 
@@ -49,8 +51,7 @@ export const ShopProvider = ({ children }) => {
       );
       return newList;
     });
-    setPlaceEditMode(false);
-    setItemToPlace(null);
+    abortPlaceEditMode();
     deleteFromInventory(furniture.lineId);
   };
 
