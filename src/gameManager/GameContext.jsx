@@ -5,49 +5,26 @@ const BASIC_FINANCES = 10000;
 const GameContext = createContext();
 
 export const GameProvider = ({ children }) => {
-  const [finances, setFinances] = useState(
-    localStorage.getItem("finances") || BASIC_FINANCES
-  );
-  const [inventory, setInventory] = useState(() => {
-    const savedList = localStorage.getItem("inventory");
-    return savedList ? JSON.parse(savedList) : [];
-  });
+  const [finances, setFinances] = useState(BASIC_FINANCES);
+  const [inventory, setInventory] = useState([]);
 
-  const buy = (amont) => {
-    const total = finances - amont;
+  const buy = (amount) => {
+    const total = finances - amount;
     if (total < 0) {
       throw new Error("You don't have enough money for this operation !");
     }
-    setFinances(() => {
-      localStorage.setItem("finances", total);
-      return total;
-    });
+    setFinances(total);
   };
 
   const addToInventory = (items) => {
-    setInventory((prevList) => {
-      const newList = [...prevList, ...items];
-      localStorage.setItem("inventory", JSON.stringify(newList));
-      return newList;
-    });
+    setInventory([...inventory, ...items]);
   };
 
   const deleteFromInventory = (lineId) => {
-    setInventory((prevInventory) => {
-      const newList = prevInventory.filter((item) => item.lineId !== lineId);
-      localStorage.setItem("inventory", JSON.stringify(newList));
-      return newList;
-    });
+    setInventory((prevInventory) =>
+      prevInventory.filter((item) => item.lineId !== lineId)
+    );
   };
-
-  useEffect(() => {
-    if (!localStorage.getItem("finances")) {
-      localStorage.setItem("finances", JSON.stringify(finances));
-    }
-    if (!localStorage.getItem("inventory")) {
-      localStorage.setItem("inventory", JSON.stringify(inventory));
-    }
-  });
 
   return (
     <GameContext.Provider
