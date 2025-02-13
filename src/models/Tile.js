@@ -6,7 +6,7 @@ export class Tile {
     this.position = position;
     this.rotation = [0, 0, 0];
     this.busy = false;
-    this.activated = false;
+    this.activated = true;
     this.furniture = null;
   }
 }

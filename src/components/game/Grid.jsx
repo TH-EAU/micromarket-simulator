@@ -1,12 +1,10 @@
-import { useState, useEffect, useContext } from "react";
+import { useState } from "react";
 import { useShop } from "../../shopManager/shopContext";
-import Furniture from "./Furniture";
-import Tile from "./Tile";
-import DesactivatedTile from "./DesactivatedTile";
+import Tile from "./Tiles/Tile";
 
 const Grid = () => {
-  const { tileList, addFurniture, activateTile } = useShop();
-  const [grid, setGrid] = useState(tileList || []);
+  const { tileList, addFurniture, placeEditMode, tooglePlaceEditMode } =
+    useShop();
   const [currentRotation, setCurrentRotation] = useState(0);
 
   const handleRotation = () => [
@@ -14,38 +12,23 @@ const Grid = () => {
   ];
 
   const handlePlace = (tile) => {
-    addFurniture(tile.id, [0, currentRotation, 0]);
+    if (placeEditMode) {
+      addFurniture(tile.id, [0, currentRotation, 0]);
+      tooglePlaceEditMode();
+    }
   };
 
   return (
     <>
       {tileList.map((tile) => (
-        <>
-          {tile.activated ? (
-            <Tile
-              key={tile.id}
-              tile={tile}
-              rotation={[0, currentRotation, 0]}
-              handleRotation={handleRotation}
-              handlePlace={handlePlace}
-            />
-          ) : (
-            <DesactivatedTile
-              key={tile.id}
-              tile={tile}
-              onActivate={activateTile}
-            />
-          )}
-        </>
-      ))}
-      {/* {furnitureList.map((furniture, index) => (
-        <Furniture
-          key={`furniture-${index}`}
-          model={furniture.model}
-          position={furniture.position}
-          rotation={furniture.rotation}
+        <Tile
+          key={tile.id}
+          tile={tile}
+          rotation={[0, currentRotation, 0]}
+          handleRotation={handleRotation}
+          handlePlace={handlePlace}
         />
-      ))} */}
+      ))}
     </>
   );
 };

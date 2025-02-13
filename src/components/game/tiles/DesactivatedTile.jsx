@@ -1,3 +1,4 @@
+/** Tiles can be desactivated. But it's a future feature that i'm just thinking */
 const DesactivatedTile = ({ tile, onActivate }) => {
   const handleClick = () => {
     onActivate(tile.id);

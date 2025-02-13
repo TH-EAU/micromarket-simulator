@@ -1,10 +1,12 @@
 import { useState } from "react";
-import { useModel } from "../../gltfManager/ModelContext";
-import Furniture from "./Furniture";
+import { useModel } from "../../../gltfManager/ModelContext";
+import Furniture from "../Furniture";
+import { useShop } from "../../../shopManager/shopContext";
 
 const Tile = ({ tile, rotation, handleRotation, handlePlace }) => {
   const [hovered, setHovered] = useState(false);
   const model = useModel("smallFridge");
+  const { placeEditMode } = useShop();
 
   if (!tile.furniture) {
     return (
@@ -12,8 +14,8 @@ const Tile = ({ tile, rotation, handleRotation, handlePlace }) => {
         <mesh
           position={tile.position}
           onClick={() => handlePlace(tile)}
-          // onPointerOver={() => setHovered(true)}
-          // onPointerOut={() => setHovered(false)}
+          onPointerOver={() => setHovered(true)}
+          onPointerOut={() => setHovered(false)}
           onContextMenu={handleRotation}
           receiveShadow
           castShadow
@@ -21,7 +23,7 @@ const Tile = ({ tile, rotation, handleRotation, handlePlace }) => {
           <boxGeometry args={[1, 0.1, 1]} />
           <meshStandardMaterial />
         </mesh>
-        {hovered && !tile.busy && tile.activated && (
+        {hovered && placeEditMode && (
           <mesh
             onPointerOut={() => setHovered(false)}
             onContextMenu={handleRotation}

@@ -30,7 +30,7 @@ const keys = {
   storage: new StorageModel(),
   smallFridge: new SmallFridgeModel(),
   fridge: new FridgeModel(),
-  bouteille: new MilkBottle(),
+  milk: new MilkBottle(),
 };
 
 class ModelFactory {
