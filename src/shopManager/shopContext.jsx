@@ -11,12 +11,7 @@ const ShopContext = createContext();
 export const ShopProvider = ({ children }) => {
   const [placeEditMode, setPlaceEditMode] = useState(false);
   const [itemToPlace, setItemToPlace] = useState(null);
-  const [tileList, setTileList] = useState(() => {
-    const savedList = localStorage.getItem("tileList");
-    return savedList
-      ? JSON.parse(savedList)
-      : Grid.generateGrid(BASIC_GRID_SIZE);
-  });
+  const [tileList, setTileList] = useState(Grid.generateGrid(BASIC_GRID_SIZE));
 
   const { deleteFromInventory } = useGame();
 
@@ -37,11 +32,9 @@ export const ShopProvider = ({ children }) => {
       throw new Error("You must provide a furniture !");
     }
 
-    // console.log(furniture);
-
-    // if (!(furniture.product instanceof Furniture)) {
-    //   throw new Error("You must provide an Instance of Furniture !");
-    // }
+    if (!(furniture.product instanceof Furniture)) {
+      throw new Error("You must provide an Instance of Furniture !");
+    }
 
     setTileList((prevList) => {
       const newList = prevList.map((tile) =>
@@ -54,20 +47,12 @@ export const ShopProvider = ({ children }) => {
             }
           : tile
       );
-
-      localStorage.setItem("tileList", JSON.stringify(newList));
       return newList;
     });
     setPlaceEditMode(false);
     setItemToPlace(null);
     deleteFromInventory(furniture.lineId);
   };
-
-  useEffect(() => {
-    if (!localStorage.getItem("tileList")) {
-      localStorage.setItem("tileList", JSON.stringify(tileList));
-    }
-  }, []);
 
   return (
     <ShopContext.Provider
