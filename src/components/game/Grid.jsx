@@ -1,11 +1,12 @@
 import { useState, useEffect, useContext } from "react";
 import { useShop } from "../../shopManager/shopContext";
-import Furniture from "./Storage";
+import Furniture from "./Furniture";
 import Tile from "./Tile";
+import DesactivatedTile from "./DesactivatedTile";
 
 const Grid = () => {
-  const { furnitureList, addFurniture } = useShop();
-  const [grid, setGrid] = useState([]);
+  const { tileList, addFurniture, activateTile } = useShop();
+  const [grid, setGrid] = useState(tileList || []);
   const [currentRotation, setCurrentRotation] = useState(0);
 
   const handleRotation = () => [
@@ -13,48 +14,38 @@ const Grid = () => {
   ];
 
   const handlePlace = (tile) => {
-    addFurniture("smallFridge", tile.position, [0, currentRotation, 0]);
-    const t = grid.find((e) => e.id === tile.id);
-    t.busy = true;
+    addFurniture(tile.id, [0, currentRotation, 0]);
   };
-
-  useEffect(() => {
-    const newGrid = [];
-    const gridSize = 10;
-
-    for (let x = 0; x < gridSize; x++) {
-      for (let z = 0; z < gridSize; z++) {
-        newGrid.push({
-          // un peu trop critique pour être laissé ici je trouve
-          id: `${x}${z}`,
-          position: [x - gridSize / 2, 0, z - gridSize / 2],
-          busy: false,
-        });
-      }
-    }
-
-    setGrid(newGrid);
-  }, []);
 
   return (
     <>
-      {grid.map((tile, index) => (
-        <Tile
-          key={index}
-          tile={tile}
-          rotation={[0, currentRotation, 0]}
-          handleRotation={handleRotation}
-          handlePlace={handlePlace}
-        />
+      {tileList.map((tile) => (
+        <>
+          {tile.activated ? (
+            <Tile
+              key={tile.id}
+              tile={tile}
+              rotation={[0, currentRotation, 0]}
+              handleRotation={handleRotation}
+              handlePlace={handlePlace}
+            />
+          ) : (
+            <DesactivatedTile
+              key={tile.id}
+              tile={tile}
+              onActivate={activateTile}
+            />
+          )}
+        </>
       ))}
-      {furnitureList.map((furniture, index) => (
+      {/* {furnitureList.map((furniture, index) => (
         <Furniture
           key={`furniture-${index}`}
           model={furniture.model}
           position={furniture.position}
           rotation={furniture.rotation}
         />
-      ))}
+      ))} */}
     </>
   );
 };
