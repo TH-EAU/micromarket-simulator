@@ -1,5 +1,4 @@
 import { createContext, useContext, useState } from "react";
-import { truncMyNum } from "../utils/numUtils";
 import { useGame } from "./GameContext";
 import { v4 as uuidv4 } from "uuid";
 

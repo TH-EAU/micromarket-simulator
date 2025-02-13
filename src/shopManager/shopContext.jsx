@@ -1,6 +1,8 @@
+/** Gestion of the tiles, visual elements of the shop */
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { Grid } from "../models/Grid";
 import { useGame } from "../gameManager/GameContext";
+import { Furniture } from "../models/Furniture";
 
 const BASIC_GRID_SIZE = 10;
 
@@ -15,6 +17,7 @@ export const ShopProvider = ({ children }) => {
       ? JSON.parse(savedList)
       : Grid.generateGrid(BASIC_GRID_SIZE);
   });
+
   const { deleteFromInventory } = useGame();
 
   const activePlaceEditMode = (item) => {
@@ -33,6 +36,12 @@ export const ShopProvider = ({ children }) => {
     if (!furniture) {
       throw new Error("You must provide a furniture !");
     }
+
+    // console.log(furniture);
+
+    // if (!(furniture.product instanceof Furniture)) {
+    //   throw new Error("You must provide an Instance of Furniture !");
+    // }
 
     setTileList((prevList) => {
       const newList = prevList.map((tile) =>
