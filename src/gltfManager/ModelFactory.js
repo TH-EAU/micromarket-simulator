@@ -20,10 +20,17 @@ class FridgeModel extends GLTFModel {
   }
 }
 
+class MilkBottle extends GLTFModel {
+  constructor() {
+    super("/assets/models/bouteille.glb");
+  }
+}
+
 const keys = {
   storage: new StorageModel(),
   smallFridge: new SmallFridgeModel(),
   fridge: new FridgeModel(),
+  milk: new MilkBottle(),
 };
 
 class ModelFactory {
