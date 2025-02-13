@@ -7,16 +7,17 @@ export default function Furniture({ model, position = [0, 0, 0], rotation }) {
     return null;
   }
 
+  gltf.scene.traverse((child) => {
+    if (child.isMesh) {
+      child.castShadow = true;
+      child.receiveShadow = true;
+    }
+  });
+
   return (
     <group position={position}>
       <mesh>
-        <primitive
-          receiveShadow
-          castShadow
-          rotation={rotation}
-          object={gltf.scene.clone()}
-          scale={1}
-        />
+        <primitive rotation={rotation} object={gltf.scene.clone()} scale={1} />
       </mesh>
     </group>
   );

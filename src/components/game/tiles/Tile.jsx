@@ -5,8 +5,8 @@ import { useShop } from "../../../shopManager/shopContext";
 
 const Tile = ({ tile, rotation, handleRotation, handlePlace }) => {
   const [hovered, setHovered] = useState(false);
-  const model = useModel("smallFridge");
-  const { placeEditMode } = useShop();
+  const { placeEditMode, modelToPlace } = useShop();
+  const model = useModel(modelToPlace);
 
   if (!tile.furniture) {
     return (

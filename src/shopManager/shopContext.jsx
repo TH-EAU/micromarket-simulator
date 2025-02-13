@@ -8,12 +8,22 @@ const ShopContext = createContext();
 
 export const ShopProvider = ({ children }) => {
   const [placeEditMode, setPlaceEditMode] = useState(false);
+  const [modelToPlace, setModelToPlace] = useState(null);
   const [tileList, setTileList] = useState(() => {
     const savedList = localStorage.getItem("tileList");
     return savedList
       ? JSON.parse(savedList)
       : Grid.generateGrid(BASIC_GRID_SIZE);
   });
+
+  const activePlaceEditMode = (item) => {
+    if (!item) {
+      throw new Error("Edit mode must have item to place !");
+    }
+
+    setPlaceEditMode(true);
+    setModelToPlace(item.model);
+  };
 
   const tooglePlaceEditMode = () => {
     setPlaceEditMode(!placeEditMode);
@@ -45,7 +55,13 @@ export const ShopProvider = ({ children }) => {
 
   return (
     <ShopContext.Provider
-      value={{ tileList, addFurniture, placeEditMode, tooglePlaceEditMode }}
+      value={{
+        tileList,
+        addFurniture,
+        placeEditMode,
+        activePlaceEditMode,
+        modelToPlace,
+      }}
     >
       {children}
     </ShopContext.Provider>

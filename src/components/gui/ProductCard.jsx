@@ -4,10 +4,9 @@ import { IconButton } from "rsuite";
 import PlusIcon from "@rsuite/icons/Plus";
 import { useState } from "react";
 import { useCart } from "../../gameManager/CartContext";
-import { v4 as uuidv4 } from "uuid";
 
 const ProductCard = ({ product }) => {
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(1);
 
   const { addToCart } = useCart();
 
@@ -16,11 +15,7 @@ const ProductCard = ({ product }) => {
   };
 
   const handleAdd = () => {
-    addToCart({
-      product,
-      quantity,
-      lineId: uuidv4(),
-    });
+    addToCart(product);
   };
 
   return (
@@ -37,23 +32,14 @@ const ProductCard = ({ product }) => {
         src={product.image}
         alt={product.name}
         rounded
-        width={64}
+        width={80}
         height={128}
       />
       <h5>{product.name}</h5>
 
       <p>PU : {product.inPrice}🪙</p>
-      <p>PT : {Math.trunc(product.inPrice * quantity * 100) / 100}🪙</p>
 
-      <InputGroup>
-        <InputNumber
-          min={0}
-          placeholder="0"
-          value={quantity}
-          onChange={handleChange}
-        />
-        <IconButton icon={<PlusIcon />} onClick={handleAdd}></IconButton>
-      </InputGroup>
+      <IconButton icon={<PlusIcon />} onClick={handleAdd}></IconButton>
     </Panel>
   );
 };

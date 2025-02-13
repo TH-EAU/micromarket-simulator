@@ -11,33 +11,16 @@ const CartPage = () => {
 
   return (
     <>
-      <Table
-        height={300}
-        data={cart}
-        onRowClick={(rowData) => {
-          console.log(rowData);
-        }}
-      >
+      <Table height={300} data={cart}>
         <Column align="center" width={200} fixed>
           <HeaderCell>Name</HeaderCell>
-          <Cell dataKey="product.name" />
+          <Cell dataKey="name" />
         </Column>
         <Column align="center" fixed>
           <HeaderCell>Price</HeaderCell>
-          <Cell dataKey="product.inPrice" />
+          <Cell dataKey="inPrice" />
         </Column>
-        <Column align="center" fixed>
-          <HeaderCell>Quantity</HeaderCell>
-          <Cell dataKey="quantity" />
-        </Column>
-        <Column align="center">
-          <HeaderCell>Total</HeaderCell>
-          <Cell>
-            {(rowData) => (
-              <p>{truncMyNum(rowData.product.inPrice * rowData.quantity)} 🪙</p>
-            )}
-          </Cell>
-        </Column>
+
         <Column align="center" width={300}>
           <HeaderCell>...</HeaderCell>
           <Cell>
@@ -80,6 +63,7 @@ const CartPage = () => {
         </Stat>
       </StatGroup>
       <Button
+        style={{ margin: "20px 10px" }}
         onClick={validateCart}
         disabled={finances - getTotalCartAmount() > 0 ? false : true}
       >

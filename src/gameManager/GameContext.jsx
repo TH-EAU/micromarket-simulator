@@ -8,7 +8,10 @@ export const GameProvider = ({ children }) => {
   const [finances, setFinances] = useState(
     localStorage.getItem("finances") || BASIC_FINANCES
   );
-  const [inventory, setInventory] = useState([]);
+  const [inventory, setInventory] = useState(() => {
+    const savedList = localStorage.getItem("inventory");
+    return savedList ? JSON.parse(savedList) : [];
+  });
 
   const buy = (amont) => {
     const total = finances - amont;
@@ -19,12 +22,19 @@ export const GameProvider = ({ children }) => {
   };
 
   const addToInventory = (items) => {
-    setInventory([...inventory, items]);
+    setInventory((prevList) => {
+      const newList = [...prevList, ...items];
+      localStorage.setItem("inventory", JSON.stringify(newList));
+      return newList;
+    });
   };
 
   useEffect(() => {
     if (!localStorage.getItem("finances")) {
       localStorage.setItem("finances", JSON.stringify(finances));
+    }
+    if (!localStorage.getItem("inventory")) {
+      localStorage.setItem("inventory", JSON.stringify(inventory));
     }
   });
 

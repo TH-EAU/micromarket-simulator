@@ -1,6 +1,7 @@
 import { createContext, useContext, useState } from "react";
 import { truncMyNum } from "../utils/numUtils";
 import { useGame } from "./GameContext";
+import { v4 as uuidv4 } from "uuid";
 
 const CartContext = createContext();
 
@@ -10,28 +11,11 @@ export const CartProvider = ({ children }) => {
   const { buy, addToInventory } = useGame();
 
   const getTotalCartAmount = () => {
-    return cart.reduce(
-      (total, item) => total + truncMyNum(item.quantity * item.product.inPrice),
-      0
-    );
+    return cart.reduce((total, item) => total + item.inPrice, 0);
   };
 
-  const addToCart = (products) => {
-    if (!cart.find((i) => i.product.id === products.product.id)) {
-      setCart([...cart, products]);
-      return;
-    }
-
-    setCart((prevCart) => {
-      return prevCart.map((item) =>
-        item.product.id === products.product.id
-          ? {
-              ...item,
-              quantity: item.quantity + products.quantity,
-            }
-          : item
-      );
-    });
+  const addToCart = (product) => {
+    setCart([...cart, { ...product, lineId: uuidv4() }]);
   };
 
   const deleteFromCart = (lineId) => {

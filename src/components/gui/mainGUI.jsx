@@ -1,11 +1,15 @@
 import { IconButton, ButtonToolbar } from "rsuite";
-import AddOutlineIcon from "@rsuite/icons/AddOutline";
 import { useState } from "react";
 import BuyingModal from "./BuyingModal";
 import { useGame } from "../../gameManager/GameContext";
+import { CartProvider } from "../../gameManager/CartContext";
+import AddOutlineIcon from "@rsuite/icons/AddOutline";
+import GridIcon from "@rsuite/icons/Grid";
+import StockPanel from "./StockPanel";
 
 const MainGUI = () => {
   const [openBuy, setOpenBuy] = useState(false);
+  const [openStock, setOpenStock] = useState(false);
   const { finances } = useGame();
 
   const openBuyingModal = () => {
@@ -16,16 +20,33 @@ const MainGUI = () => {
     setOpenBuy(false);
   };
 
+  const openStockPanel = () => {
+    setOpenStock(true);
+  };
+
+  const closeStockPanel = () => {
+    setOpenStock(false);
+  };
+
   return (
-    <div>
-      <ButtonToolbar>
-        <IconButton icon={<AddOutlineIcon />} onClick={openBuyingModal}>
-          Buy
-        </IconButton>
+    <>
+      <div>
+        <ButtonToolbar>
+          <IconButton icon={<AddOutlineIcon />} onClick={openBuyingModal}>
+            Buy
+          </IconButton>
+          <IconButton icon={<GridIcon />} onClick={openStockPanel}>
+            Stock
+          </IconButton>
+          <p>Finances : {finances}🪙</p>
+        </ButtonToolbar>
+      </div>
+
+      <CartProvider>
         <BuyingModal open={openBuy} close={closeBuyingModal} />
-        <p>Finances : {finances}🪙</p>
-      </ButtonToolbar>
-    </div>
+      </CartProvider>
+      <StockPanel open={openStock} close={closeStockPanel} />
+    </>
   );
 };
 
