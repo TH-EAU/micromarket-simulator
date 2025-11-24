@@ -14,9 +14,9 @@ class SmallFridgeModel extends GLTFModel {
   }
 }
 
-class FridgeModel extends GLTFModel {
+class CashRegisterModel extends GLTFModel {
   constructor() {
-    super("/assets/models/frigogidaire.glb");
+    super("/assets/models/caisse.glb");
   }
 }
 
@@ -26,11 +26,18 @@ class MilkBottle extends GLTFModel {
   }
 }
 
+class Walls extends GLTFModel {
+  constructor() {
+    super("assets/models/wall.glb");
+  }
+}
+
 const keys = {
   storage: new StorageModel(),
   smallFridge: new SmallFridgeModel(),
-  fridge: new FridgeModel(),
+  cashRegister: new CashRegisterModel(),
   milk: new MilkBottle(),
+  wall: new Walls(),
 };
 
 class ModelFactory {

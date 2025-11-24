@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { useModel } from "../../gltfManager/ModelContext";
 import { useShop } from "../../shopManager/shopContext";
 import { useGame } from "../../gameManager/GameContext";
+import Consomable from "./Consomable";
 
-const MAXIMUM_IN_CASE = 9;
+const MAXIMUM_IN_CASE = 4;
 
 export default function Furniture({
   furniture,
@@ -74,6 +75,15 @@ export default function Furniture({
       >
         <primitive rotation={rotation} object={gltf.scene.clone()} scale={1} />
       </mesh>
+      {storage.map((storageCase) => {
+        return (
+          <>
+            {storageCase.map((consomable, index) => {
+              return <Consomable consomable={consomable} index={index} />;
+            })}
+          </>
+        );
+      })}
     </group>
   );
 }
